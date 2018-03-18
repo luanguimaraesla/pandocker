@@ -13,14 +13,11 @@ RUN apt-get update && \
     texlive-lang-portuguese && \
     apt-get clean -y
 
-# Install and setup Haskell Stack
-RUN curl -sSL https://get.haskellstack.org/ | sh -s - -f && \
-    stack setup
-
-# Install pandoc
-RUN stack install pandoc-2.0.6 && \
-    stack install pandoc-citeproc && \
-    stack install pandoc-crossref
+RUN apt-get install -y --no-install-recommends haskell-platform unzip && \
+    cabal update && \
+    cabal install pandoc-types-1.17.3 && \
+    cabal install pandoc-crossref && \
+    cabal install pandoc-citeproc
 
 COPY compile.sh /compile.sh
 
