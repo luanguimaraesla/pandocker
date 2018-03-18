@@ -6,38 +6,38 @@ cd $PANDOCKER_PATH
 
 # Check template is enabled
 if [ -z ${TEMPLATE_PATH} ]; then
-  echo "Using default template"
+  echo "[INFO] Using default template"
   ADD_TEMPLATE=""
 else
-  echo "Using $TEMPLATE_PATH"
+  echo "[INFO] Using $TEMPLATE_PATH"
   ADD_TEMPLATE="--template $TEMPLATE_PATH"
 fi
 
 # Check table of contents is disabled
 WITH_TABLE_OF_CONTENTS=${WITH_TABLE_OF_CONTENTS:-true}
 if $WITH_TABLE_OF_CONTENTS; then
-  echo "Table of contents enabled"
+  echo "[INFO] Table of contents enabled"
   ADD_TOC="--toc"
 else
-  echo "Table of contents disabled"
+  echo "[INFO] Table of contents disabled"
   ADD_TOC=""
 fi
 
 # Check output file
 if [ -z ${OUTPUT_FILE} ]; then
-  echo "No output file described (OUTPUT_FILE). Using 'doc.pdf'"
+  echo "[INFO] No output file described (OUTPUT_FILE). Using 'doc.pdf'"
   ADD_OUTPUT_FILE="doc.pdf"
 else
-  echo "Using $OUTPUT_FILE output file"
+  echo "[INFO] Using $OUTPUT_FILE output file"
   ADD_OUTPUT_FILE=$OUTPUT_FILE
 fi
 
 # Check source dir
 if [ -z ${SOURCE_DIR} ]; then
-  echo "No source directory (SOURCE_DIR) described. Using 'src/'"
+  echo "[INFO] No source directory (SOURCE_DIR) described. Using 'src/'"
   SOURCE_DIR="src"
 else
-  echo "Using $SOURCE_DIR source directory"
+  echo "[INFO] Using $SOURCE_DIR source directory"
 fi
 
 # Check src dir exists
@@ -60,7 +60,9 @@ pandoc  $ADD_TEMPLATE -s \
         -f markdown --toc -o $ADD_OUTPUT_FILE \
         `sed 's/$/.md/g;s/^/src\//g' $SOURCE_DIR/sections.conf | xargs`;
 
-echo "Finished"
+echo "[INFO] Finished"
+echo
+echo "Thank you for using Pandocker! :)"
 echo
 echo "If the document $ADD_OUTPUT_FILE does not exist, please check the manual"
 echo "at https://github.com/luanguimaraesla/pandocker."
