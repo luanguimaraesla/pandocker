@@ -3,7 +3,7 @@ FROM debian:buster-slim
 ENV PANDOCKER_PATH /code
 
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
+    apt-get install -y \
     curl \
     texlive-latex-base \
     texlive-fonts-recommended \
@@ -17,7 +17,8 @@ RUN apt-get install -y --no-install-recommends haskell-platform unzip && \
     cabal update && \
     cabal install pandoc-types-1.17.3 && \
     cabal install pandoc-crossref && \
-    cabal install pandoc-citeproc
+    cabal install pandoc-citeproc && \
+    apt-get clean -y
 
 COPY compile.sh /compile.sh
 

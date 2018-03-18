@@ -79,7 +79,7 @@ services:
     image: luanguimaraesla/pandocker
     volumes:
     - .:/code
-    variables:
+    environment:
       OUTPUT_FILE: 'example.pdf'   # the output file name, defalt: doc.pdf
       SOURCE_DIR: 'example'   # the markdown source directory, default: src
       TEMPLATE_PATH: 'templates/example.latex'   # the path of your pandoc template, default: none

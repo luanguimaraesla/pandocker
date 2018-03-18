@@ -1,6 +1,6 @@
 #! /bin/bash
 
-PATH=$PATH:/root/.local/bin
+PATH=$PATH:/root/.cabal/bin
 
 cd $PANDOCKER_PATH
 
