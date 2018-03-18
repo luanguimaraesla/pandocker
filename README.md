@@ -1,6 +1,9 @@
 # pandocker
 
-Docker version of full featured pandoc to convert Markdown documents to PDF.
+Docker version of full-featured pandoc to convert Markdown documents to PDF.
+
+Github: https://github.com/luanguimaraesla/pandocker
+Gitlab: https://gitlab.com/luanguimaraesla/pandocker
 
 ## Install
 
@@ -43,7 +46,7 @@ How can you correctly configure the files? It is described at the [Configuration
 
 ## Docker usage
 
-I will describe how to use Pandocker with a `docker-compose` example. Feel free to skip it's installation and run a solo docker engine with the same environment variables.
+I will describe how to use Pandocker with a `docker-compose` example. Feel free to skip its installation and run a solo docker engine with the same environment variables.
 
 Create a docker-compose.yml at the root of your project, Like you saw in the [Setup section](#setup).
 
@@ -68,7 +71,7 @@ Your final document should appear in the project root as `doc.pdf`
 
 ### Environment Variables
 
-You can setup some configurations of Pandocker with the Docker Environment Variables. Here is the comples `docker-compose.yml` file with these variables:
+You can setup some configurations of Pandocker with the Docker Environment Variables. Here is the little bit complex `docker-compose.yml` file with these variables:
 
 ```
 version: '3.1'
@@ -149,7 +152,7 @@ You can read more about [pandoc metadata](https://pandoc.org/MANUAL.html#using-v
 
 #### src/bib.yaml
 
-YAML-CSL file where you should write your project's bibliography. This is not a BibTeX like tool, this is much easier. Following the YAML strcture, all you need to know is the [Citation Style Language (CSL) variables](http://docs.citationstyles.org/en/1.0.1/specification.html#appendix-iv-variables). Your bibliography file should be like this:
+YAML-CSL file where you should write your project's bibliography. This is not a BibTeX like tool, this is much easier. Following the YAML structure, all you need to know is the [Citation Style Language (CSL) variables](http://docs.citationstyles.org/en/1.0.1/specification.html#appendix-iv-variables). Your bibliography file should be like this:
 
 ```yaml
 - type: book
@@ -203,16 +206,16 @@ Note you need to specify each block `id` with any text you want. This `id` will 
 # becomes:
 # "This is a Feature Extraction book citation" (Guyon et al, 2006)
 
-Jollife [-@joll02] said some thing.
+Jollife [-@joll02] said something.
 # becomes:
-# Jollife (2002) said some thing.
+# Jollife (2002) said something.
 ```
 
 Read more about pandoc-citeproc: [pandoc-citeproc man page](https://github.com/jgm/pandoc-citeproc/blob/master/man/pandoc-citeproc.1.md).
 
 #### /src/sections.conf
 
-This file describes the order of your project files. Let me take an example where I have a project with three sections (introduction, metodology and conclusion). Each section is a Markdown file under the `src/` folder:
+This file describes the order of your project files. Let me take an example where I have a project with three sections (introduction, methodology and conclusion). Each section is a Markdown file under the `src/` folder:
 
 ```
 my-project/
@@ -221,21 +224,21 @@ my-project/
 | | config.md
 | | sections.conf                                                                
 | | introduction.md                                                                
-| | metodology.md                                                                
+| | methodology.md                                                                
 | | conclusion.md                                                                
 
 ```
 
-My `sections.conf` should contains the name of each section file in the order they will be printed in the final document (PDF). It should appear like the following:
+My `sections.conf` should contain the name of each section file in the order they will be printed in the final document (PDF). It should appear like the following:
 
 ```
 config
 introduction
-metodology
+methodology
 conclusion
 ```
 
-IMPORTANT: Note there are no `.md` extension, and my `config` should ever be the first file of my stack.
+IMPORTANT: Note there are no `.md` extension and my `config` should ever be the first file of my stack.
 
 ### Mathematics
 
@@ -245,7 +248,7 @@ I usually use [codecogs](https://www.codecogs.com/latex/eqneditor.php?lang=pt-br
 
 ### Cross Reference
 
-We use the `pandoc-crossref` filter to create and link some text references: sections, figures, tables, lists, and equations. The way we do this is very similar to the bibliograpy citation we explaned above. To create a reference anchor you'll use the `{#foo:bar}` syntax.
+We use the `pandoc-crossref` filter to create and link some text references: sections, figures, tables, lists, and equations. The way we do this is very similar to the bibliography citation we explained above. To create a reference anchor you'll use the `{#foo:bar}` syntax.
 
 ```
 |object|value|
@@ -261,11 +264,11 @@ We use the `pandoc-crossref` filter to create and link some text references: sec
 ```
 Look the values on the [@tbl:unique-table-ref]
 # becomes:
-# Look the values on the Table 1
+# Look the values on Table 1
 ```
 
-The value '1' is the order of this table on the final document. You can learn more about `pandoc-crossref` at https://github.com/lierdakil/pandoc-crossref.
+The value '1' is the order of this table in the final document. You can learn more about `pandoc-crossref` at https://github.com/lierdakil/pandoc-crossref.
 
 ### Templates
 
-The template is a `.latex` file. It's description is under the theme of this explanation. You can learn how to create your own template at this simple example: https://gist.github.com/michaelt/1017790
+The template is a `.latex` file. Its description is under the theme of this explanation. You can learn how to create your own template at this simple example: https://gist.github.com/michaelt/1017790
