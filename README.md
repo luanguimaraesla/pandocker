@@ -85,8 +85,11 @@ services:
     environment:
       OUTPUT_FILE: 'example.pdf'   # the output file name, defalt: doc.pdf
       SOURCE_DIR: 'example'   # the markdown source directory, default: src
+      FIGURES_DIR: 'example'   # the figures directory, source: images/
       TEMPLATE_PATH: 'templates/example.latex'   # the path of your pandoc template, default: none
       WITH_TABLE_OF_CONTENTS: false   # show the table of contents, default: true
+      WITH_TABLE_OF_FIGURES: false   # show the table of figures, default: true
+      WITH_TABLE_OF_TABLES: false   # show the table of tables
 
 ```
 
