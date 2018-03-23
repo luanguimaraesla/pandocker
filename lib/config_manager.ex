@@ -5,7 +5,7 @@ defmodule ConfigManager do
   defp fetch_config_yaml do
     config_yaml = Application.get_env(:pandocker, :config_yaml)
     config_path = config_yaml |> Map.get(:env) |> System.get_env
-    config_path || config_yaml |> Map.get(:default)
+    config_path || (config_yaml |> Map.get(:default))
   end
 
   defp load_configurations(path) do

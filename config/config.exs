@@ -21,19 +21,6 @@ use Mix.Config
 #     config :logger, level: :info
 #
 
-config :pandocker, sys_env: %{
-  root_path:     "PANDOCKER_PATH",
-  template_path: "PANDOCKER_TEMPLATE_PATH",
-  source_path:   "PANDOCKER_SOURCE_PATH",
-  figures_path:  "PANDOCKER_FIGURES_PATH",
-  output:        "PANDOCKER_OUTPUT",
-  tof:           "PANDOCKER_ENABLE_TABLE_FIGURES",
-  toc:           "PANDOCKER_ENABLE_TABLE_CONTENTS",
-  tot:           "PANDOCKER_ENABLE_TABLE_TABLES",
-  crossref:      "PANDOCKER_ENABLE_CROSSREF_FILTER",
-  citeproc:      "PANDOCKER_ENABLE_CITEPROC_FILTER",
-}
-
 config :pandocker, config_yaml: %{
   env: "PANDOCKER_CONFIG_YAML",
   default: "pandocker.yml"
