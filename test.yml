@@ -1,0 +1,5 @@
+# test.yml
+sections:
+  - introduction.md
+  - conclusion.md
+  - bibliography.md
