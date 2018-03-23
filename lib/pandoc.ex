@@ -4,6 +4,7 @@ defmodule Pandoc do
   """
 
   def compile(files) do
+    IO.puts(files)
     configure_flags()
     |> build_flags()
     |> build_command(files)

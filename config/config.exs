@@ -34,6 +34,11 @@ config :pandocker, sys_env: %{
   citeproc:      "PANDOCKER_ENABLE_CITEPROC_FILTER",
 }
 
+config :pandocker, config_yaml: %{
+  env: "PANDOCKER_CONFIG_YAML",
+  default: "pandocker.yml"
+}
+
 # It is also possible to import configuration files, relative to this
 # directory. For example, you can emulate configuration per environment
 # by uncommenting the line below and defining dev.exs, test.exs and such.
