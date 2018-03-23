@@ -7,6 +7,7 @@ defmodule Pandoc do
     configure_flags()
     |> build_flags()
     |> build_command(files)
+    |> Executor.execute
   end
 
   defp build_command(flags, files) do
@@ -57,4 +58,3 @@ defmodule Pandoc do
     end
   end
 end
-
