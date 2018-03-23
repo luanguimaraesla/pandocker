@@ -3,3 +3,15 @@ sections:
   - introduction.md
   - conclusion.md
   - bibliography.md
+
+pandoc:
+  template_path: "templates/test.latex"
+  source_path:   "test/"
+  figures_path:  "test/images/"
+  output:        "test.pdf"
+  tof:           false
+  toc:           true
+  tot:           true
+  filters:
+    - pandoc-crossref
+    - pandoc-citeproc

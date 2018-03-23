@@ -9,7 +9,6 @@ defmodule ConfigManager do
   end
 
   defp load_configurations(path) do
-    IO.puts("config file: " <>  path)
     Map.new(hd :yamerl_constr.file(path))
   end
 
