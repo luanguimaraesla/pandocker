@@ -15,7 +15,6 @@ defmodule Pandocker.MixProject do
   def application do
     [
       extra_applications: [:logger, :yamerl],
-      mod: {Pandocker, []}
     ]
   end
 
