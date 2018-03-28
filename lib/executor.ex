@@ -10,10 +10,14 @@ defmodule Executor do
     output = List.to_string(config['output'] || 'out.pdf')
     full_command = "cd #{local}/#{source} && #{command} && mv #{output} #{local}"
 
-    Logger.info "Command:"
-    Logger.info full_command
+    Logger.info "Command: " <> full_command
 
     System.put_env("PATH", System.get_env("PATH") <> ":/root/.cabal/bin")
-    :os.cmd String.to_charlist(full_command)
+    
+    full_command
+    |> String.to_charlist
+    |> :os.cmd
+    |> List.to_string
+    |> Logger.info
   end
 end

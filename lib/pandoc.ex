@@ -23,8 +23,6 @@ defmodule Pandoc do
   defp configure_flags do
     %{
       toc: %{token: "--toc", func: &make_flag/2},
-      lof: %{token: "--lof", func: &make_flag/2},
-      lot: %{token: "--lot", func: &make_flag/2},
       filters: %{token: "--filter", func: &make_some_flags/2},
       output: %{token: ["-o", "out.pdf"], func: &make_flag/2},
       template_path: %{token: ["--template", nil], func: &make_flag/2},
