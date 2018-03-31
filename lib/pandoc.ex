@@ -24,34 +24,29 @@ defmodule Pandoc do
     %{
       toc: %{token: "--toc", func: &make_flag/2},
       filters: %{token: "--filter", func: &make_some_flags/2},
-      output: %{token: ["-o", "out.pdf"], func: &make_flag/2},
-      template_path: %{token: ["--template", nil], func: &make_flag/2},
+      output_file: %{token: "-o", func: &make_flag/2},
+      template_file: %{token: "--template", func: &make_flag/2},
     }
   end
 
   defp build_flags(flag_map) do
-    env_map = Map.new(ConfigManager.get_section('pandoc'))
     for {k, v} <- flag_map do
-      env_map[Atom.to_charlist(k)] |> v[:func].(v[:token])
+      ConfigManager.get_config(:pandoc, k) |> v[:func].(v[:token])
     end
   end
 
   defp make_some_flags(values, option) do
-    flags = for v <- values, do: make_flag(v, [option, nil])
+    flags = for v <- values, do: make_flag(v, option)
     Enum.join(flags, " ")
   end
 
-  defp make_flag(nil, option) when not is_list(option), do: ""
-  defp make_flag(false, _), do: ""
-  defp make_flag(true, option), do: option
-  defp make_flag(value, [option, default]) do
-    case {value, option, default} do
-      {nil,_, nil} -> ""
-      {"", _, nil} -> ""
-      {[], _, nil} -> ""
-      {nil,_, _} -> option <> " " <> default
-      {"", _, _} -> option <> " " <> default
-      {[], _, _} -> option <> " " <> default
+  defp make_flag(value, option) do
+    case {value, option} do
+      {true,_} -> option
+      {false,_} -> ""
+      {nil,_} -> ""
+      {"", _} -> ""
+      {[], _} -> ""
       _ -> option <> " " <> List.to_string(value)
     end
   end

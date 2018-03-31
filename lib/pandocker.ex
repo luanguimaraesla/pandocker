@@ -4,7 +4,7 @@ defmodule Pandocker do
   """
 
   def run do
-    ConfigManager.get_section('sections')
+    ConfigManager.get_yaml_section(:sections)
     |> Pandoc.compile
   end
 end
