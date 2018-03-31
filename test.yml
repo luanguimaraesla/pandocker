@@ -7,8 +7,6 @@ pandoc:
   template_path: "templates/test.latex"
   source_path:   "test/"
   output:        "test.pdf"
-  lof:           true
-  lot:           true
   toc:           true
   filters:
     - pandoc-crossref
