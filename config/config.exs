@@ -21,9 +21,20 @@ use Mix.Config
 #     config :logger, level: :info
 #
 
-config :pandocker, config_yaml: %{
-  env: "PANDOCKER_CONFIG_YAML",
-  default: "pandocker.yml"
+config :pandocker, envs: %{
+  config_yaml:  "PANDOCKER_CONFIG_YAML",
+  project_root: "PANDOCKER_PATH",
+  source_path:  "PANDOCKER_SOURCE_PATH",
+  output_file:  "PANDOCKER_OUTPUT_FILE",
+  files:        "PANDOCKER_FILES",
+}
+
+config :pandocker, defaults: %{
+  config_yaml:  "pandocker.yml",
+  project_root: "/code",
+  source_path:  'src',
+  output_file:  'out.pdf',
+  files:        "/pandocker/examples/example.md"
 }
 
 # It is also possible to import configuration files, relative to this
