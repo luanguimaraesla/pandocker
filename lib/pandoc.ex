@@ -1,8 +1,46 @@
 defmodule Pandoc do
   @moduledoc """
-  Documentation for Pandoc.
+  This module provides a simple interface to build and execute a complex
+  pandoc command line according to the pandocker configurations.
+
+  Functions:
+
+    - `compile/1`: compiles a list of files
+    - `compile/2`: compiles a list of files with a custom command
   """
 
+  @doc """
+  Compiles an ordered list of files with a custom pandoc command
+
+  ## Parameters
+
+    - files: List of Strings with the file names to be compiled
+    - command: String with the custom pandoc command to compile the files
+
+  ## Examples
+
+    iex> Pandoc.compile(["test.md"], "pandoc --toc -o out.pdf")
+    :ok
+
+  """
+  def compile(files, command) do
+    raise "NotImplemented"
+  end
+
+  @doc """
+  Compiles an ordered list of files according to pandocker configuration
+  environment: YAML file > System Environment Variables > config.exs defaults
+
+  ## Parameters
+
+    - files: List of Strings with the file names to be compiled
+
+  ## Examples
+
+    iex> Pandoc.compile(["test.md])
+    :ok
+
+  """
   def compile(files) do
     configure_flags()
     |> build_flags()
