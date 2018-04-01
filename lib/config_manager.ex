@@ -1,38 +1,37 @@
 defmodule ConfigManager do
   @moduledoc """
-  This module provides a simple interface to manage the Pandocker's
-  configurations.
+  This module provides a simple interface to manage the Pandocker's configurations.
 
-  Its configuration can be done in three different ways. The first is through
+  Its configuration can be set in three different ways. The first is through
   a YAML file that should contain two sections,sections and pandoc. The second
   and third are through environment variables or application variables,
   both are described in the config/config.exs file.
 
   YAML file example:
 
-    ---
-    sections:   # the ordered list of files to be compiled
-      - introduction.md
-      - methodology.md
-      - conclusion.md
+      # the ordered list of files to be compiled
+      sections:
+        - introduction.md
+        - methodology.md
+        - conclusion.md
 
-    pandoc:   # pandoc flags setup
-      template_path: "templates/test.latex"
-      source_path:   "test/"
-      output_file:   "test.pdf"
-      toc:           true
-      filters:
-        - pandoc-crossref
-        - pandoc-citeproc
-    ---
+      # pandoc flags setup
+      pandoc:
+        template_path: "templates/test.latex"
+        source_path:   "test/"
+        output_file:   "test.pdf"
+        toc:           true
+        filters:
+          - pandoc-crossref
+          - pandoc-citeproc
   
   System Environment Variables:
 
-    - PANDOCKER_CONFIG_YAML: the YAML config file (default: pandocker.yml)
-    - PANDOCKER_PATH: your project root (default: /code)
-    - PANDOCKER_SOURCE_PATH: your files to be compiled directory (default: src/)
-    - PANDOCKER_OUTPUT_FILE: pandoc output file (default: out.pdf)
-    - PANDOCKER_FILES: ordered list of files to be compiled (NotImplemented)
+    - `PANDOCKER_CONFIG_YAML`: the YAML config file (default: pandocker.yml)
+    - `PANDOCKER_PATH`: your project root (default: /code)
+    - `PANDOCKER_SOURCE_PATH`: dir with files to be compiled (default: src/)
+    - `PANDOCKER_OUTPUT_FILE`: pandoc output file (default: out.pdf)
+    - `PANDOCKER_FILES`: ordered list of files to be compiled (NotImplemented)
 
   """
 
@@ -43,7 +42,7 @@ defmodule ConfigManager do
 
     - map: Atom referring to the name of the configuration map
     - key: Atom for the key to be found in the map
-    - app: Atom referring to the name of the application (default: :pandocker)
+    - app: Atom referring to the name of the application
 
   ## Examples
 
