@@ -1,8 +1,12 @@
 #! /bin/bash
 
-cmd="$@"
+# Set pandocker cmd
+export PANDOCKER_CMD="$@"
+
+echo "COMMAND: "
+echo "$PANDOCKER_CMD"
 
 # Add cabal binaries
 PATH=$PATH:/root/.cabal/bin
 
-exec $cmd
+mix run -e Pandocker.run

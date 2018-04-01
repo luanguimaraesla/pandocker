@@ -22,11 +22,17 @@ use Mix.Config
 #
 
 config :pandocker, envs: %{
-  config_yaml:  "PANDOCKER_CONFIG_YAML",
-  project_root: "PANDOCKER_PATH",
-  source_path:  "PANDOCKER_SOURCE_PATH",
-  output_file:  "PANDOCKER_OUTPUT_FILE",
-  files:        "PANDOCKER_FILES",
+  config_yaml:    "PANDOCKER_CONFIG_YAML",
+  project_root:   "PANDOCKER_PATH",
+  source_path:    "PANDOCKER_SOURCE_PATH",
+  output_file:    "PANDOCKER_OUTPUT_FILE",
+  files:          "PANDOCKER_FILES",
+  custom_flags:   "PANDOCKER_CUSTOM_FLAGS",
+  cmd:            "PANDOCKER_CMD",
+}
+
+config :pandocker, tokens: %{
+  config_yaml: ~r/-f (?P<config_yaml>\/?(\w+\/?)*\w+\.(yaml|yml))/,
 }
 
 config :pandocker, defaults: %{

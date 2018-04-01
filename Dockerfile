@@ -38,5 +38,3 @@ ENTRYPOINT ["/entrypoint.sh"]
 
 WORKDIR /pandocker
 ADD . /pandocker 
-
-CMD ["mix", "run", "-e", "Pandocker.run"]

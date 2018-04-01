@@ -36,27 +36,6 @@ defmodule ConfigManager do
   """
 
   @doc """
-  Get an application variable set in config/config.exs
-
-  ## Parameters
-
-    - map: Atom referring to the name of the configuration map
-    - key: Atom for the key to be found in the map
-    - app: Atom referring to the name of the application
-
-  ## Examples
-
-    iex> ConfigManager.get_app_config(:defaults, :output_file)
-    'out.pdf'
-
-  """
-  def get_app_config(map, key, app \\ :pandocker) do
-    app
-    |> Application.get_env(map)
-    |> Map.get(key)
-  end
-
-  @doc """
   Get a specific System Environment Variable or use a default value
 
   ## Parameters
@@ -77,15 +56,16 @@ defmodule ConfigManager do
 
   """
   def get_env(key) when is_atom(key) do
-    default = get_app_config(:defaults, key)
+    cmd_arg = fetch_cmd_arg(key)
     sys_env = get_app_config(:envs, key)
+    default = get_app_config(:defaults, key)
 
-    case {sys_env, default} do
-      {nil, nil} -> nil
-      {nil, _ } -> default
-      _ -> System.get_env(sys_env) || default
-    end
+    require Logger
+    Logger.info "SYSTEM: " <> ( System.get_env("PANDOCKER_CMD") || "PANDOCKER NULO")
+
+    cmd_arg || (try do: (System.get_env sys_env), rescue: (_ -> nil)) || default
   end
+
 
   @doc """
   Loads the YAML file from the given name through the System Environment
@@ -109,6 +89,7 @@ defmodule ConfigManager do
     |> load_configurations
     |> Map.get(Atom.to_charlist(section))
   end
+
 
   @doc """
   Get Pandocker configuration from the YAML or use the System Environment
@@ -134,6 +115,7 @@ defmodule ConfigManager do
     end
   end
 
+
   @doc """
   Get Pandocker configuration from the YAML or use the System Environment
   Variable or the Application Environment Variables. Then apply an
@@ -152,16 +134,32 @@ defmodule ConfigManager do
 
   """
   def get_config(section, key, fun) when is_function(fun) do
-    get_config(section, key)
-    |> fun.()
+    try do
+      get_config(section, key)
+      |> fun.()
+    rescue
+      FunctionClauseError -> nil
+    end
+  end
+
+  defp get_app_config(map, key, app \\ :pandocker) do
+    app
+    |> Application.get_env(map)
+    |> Map.get(key)
   end
 
   defp load_configurations(path) do
-    # Creates a map of settings from a YAML file
-    #
-    # Parameters:
-    #   - path: yaml file path
-
     Map.new(hd :yamerl_constr.file(path))
+  end
+
+  defp fetch_cmd_arg(:cmd), do: nil
+  defp fetch_cmd_arg(key) do
+    try do
+      get_app_config(:tokens, key)
+      |> Regex.named_captures(get_env(:cmd))
+      |> Map.get(Atom.to_string(key))
+    rescue
+      _ -> nil
+    end
   end
 end

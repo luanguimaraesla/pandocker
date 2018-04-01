@@ -4,11 +4,14 @@ defmodule Executor do
 
   Functions:
 
-    - `execute/1`: runs the pandoc command in the correct directory with the
+    - `dispatch/1`: runs the pandoc command in the correct directory with the
       source files.
+
   """
 
+
   require Logger
+
 
   @doc """
   Runs the pandoc command in the correct directory with the source files, and
@@ -20,17 +23,24 @@ defmodule Executor do
 
   ## Examples
 
-    iex> Executor.execute("pandoc -o out.pdf test.md")
+    iex> Executor.dispatch("pandoc -o out.pdf test.md")
     :ok
 
   """
-  def execute(pandoc_command) do
+  def dispatch(pandoc_command) do
     root  = ConfigManager.get_env(:project_root)
     source = ConfigManager.get_config(:pandoc, :source_path, &List.to_string/1)
     output = ConfigManager.get_config(:pandoc, :output_file, &List.to_string/1)
 
     ["cd " <> Path.join(root, source), pandoc_command, "mv #{output} #{root}"]
     |> make_os_command
+    |> execute
+    :ok
+  end
+
+
+  defp execute(command) do
+    command
     |> :os.cmd
     |> List.to_string
     |> Logger.info
