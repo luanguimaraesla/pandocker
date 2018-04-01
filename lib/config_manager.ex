@@ -29,7 +29,6 @@ defmodule ConfigManager do
     cmd_arg || (try do: (System.get_env sys_env), rescue: (_ -> nil)) || default
   end
 
-
   @doc """
   Loads the YAML file from the given name through the System Environment
   Variable :config_yaml or uses its default value. Then it retrieves a
@@ -112,7 +111,8 @@ defmodule ConfigManager do
   end
 
   defp load_configurations(path) do
-    Map.new(hd :yamerl_constr.file(path))
+    full_path = Path.join(get_env(:project_root), path)
+    Map.new(hd :yamerl_constr.file(full_path))
   end
 
   defp fetch_cmd_arg(:cmd), do: nil   # Avoid deadlocks
