@@ -31,16 +31,16 @@ config :pandocker, envs: %{
   cmd:            "PANDOCKER_CMD",
 }
 
-config :pandocker, tokens: %{
-  config_yaml: ~r/-f (?P<config_yaml>\/?(\w+\/?)*\w+\.(yaml|yml))/,
-}
-
 config :pandocker, defaults: %{
   config_yaml:  "pandocker.yml",
   project_root: "/code",
   source_path:  'src',
   output_file:  'out.pdf',
   files:        "/pandocker/examples/example.md"
+}
+
+config :pandocker, tokens: %{
+  config_yaml: ~r/-f (?P<config_yaml>\/?(\w+\/?)*\w+\.(yaml|yml))/,
 }
 
 # It is also possible to import configuration files, relative to this

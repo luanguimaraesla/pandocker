@@ -6,34 +6,8 @@ defmodule ConfigManager do
   a YAML file that should contain two sections,sections and pandoc. The second
   and third are through environment variables or application variables,
   both are described in the config/config.exs file.
-
-  YAML file example:
-
-      # the ordered list of files to be compiled
-      sections:
-        - introduction.md
-        - methodology.md
-        - conclusion.md
-
-      # pandoc flags setup
-      pandoc:
-        template_path: "templates/test.latex"
-        source_path:   "test/"
-        output_file:   "test.pdf"
-        toc:           true
-        filters:
-          - pandoc-crossref
-          - pandoc-citeproc
-  
-  System Environment Variables:
-
-    - `PANDOCKER_CONFIG_YAML`: the YAML config file (default: pandocker.yml)
-    - `PANDOCKER_PATH`: your project root (default: /code)
-    - `PANDOCKER_SOURCE_PATH`: dir with files to be compiled (default: src/)
-    - `PANDOCKER_OUTPUT_FILE`: pandoc output file (default: out.pdf)
-    - `PANDOCKER_FILES`: ordered list of files to be compiled (NotImplemented)
-
   """
+
 
   @doc """
   Get a specific System Environment Variable or use a default value
@@ -41,13 +15,6 @@ defmodule ConfigManager do
   ## Parameters
 
     - key: Atom for the key mapped to the System Environment Variable
-
-        List of enabled atoms:
-        :config_yaml  ->  PANDOCKER_CONFIG_YAML
-        :project_root ->  PANDOCKER_PATH
-        :source_path  ->  PANDOCKER_SOURCE_PATH
-        :output_file  ->  PANDOCKER_OUTPUT_FILE
-        :files        ->  PANDOCKER_FILES
 
   ## Examples
 
@@ -59,10 +26,6 @@ defmodule ConfigManager do
     cmd_arg = fetch_cmd_arg(key)
     sys_env = get_app_config(:envs, key)
     default = get_app_config(:defaults, key)
-
-    require Logger
-    Logger.info "SYSTEM: " <> ( System.get_env("PANDOCKER_CMD") || "PANDOCKER NULO")
-
     cmd_arg || (try do: (System.get_env sys_env), rescue: (_ -> nil)) || default
   end
 
@@ -152,7 +115,7 @@ defmodule ConfigManager do
     Map.new(hd :yamerl_constr.file(path))
   end
 
-  defp fetch_cmd_arg(:cmd), do: nil
+  defp fetch_cmd_arg(:cmd), do: nil   # Avoid deadlocks
   defp fetch_cmd_arg(key) do
     try do
       get_app_config(:tokens, key)
