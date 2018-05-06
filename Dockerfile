@@ -33,6 +33,7 @@ RUN cd /tmp && \
     mix local.hex --force && \
     mix deps.get
 
+ENV LANG=C.UTF-8
 ADD entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
 
