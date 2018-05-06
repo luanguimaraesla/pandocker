@@ -41,7 +41,7 @@ config :pandocker, defaults: %{
 }
 
 config :pandocker, tokens: %{
-  command: ~r/^\s*(?P<command>(compile|help|test))/,
+  command: ~r/^\s*(?P<command>(compile|help|sleep))/,
   config_yaml: ~r/-f (?P<config_yaml>\/?(\w+\/?)*\w+\.(yaml|yml))/,
 }
 

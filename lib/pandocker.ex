@@ -8,6 +8,10 @@ defmodule Pandocker do
       the section 'sections' of the YAML configuration file.
   """
 
+
+  require Logger
+
+
   @doc """
   runs pandoc by concatenating the list of files described in the section
   'sections' of the YAML configuration file
@@ -36,7 +40,12 @@ defmodule Pandocker do
     raise "Not Implemented"
   end
 
-  def test do
-    raise "Not Implemented"
+  @doc """
+  runs system sleep infinity to permit user login into docker
+  container and execute whatever he wants, including tests.
+  """
+  def sleep do
+    Logger.info("Sleeping")
+    System.cmd("sleep", ["infinity"])
   end
 end
