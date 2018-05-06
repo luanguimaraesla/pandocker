@@ -32,6 +32,7 @@ config :pandocker, envs: %{
 }
 
 config :pandocker, defaults: %{
+  command: "help",
   config_yaml:  "pandocker.yml",
   project_root: "/code",
   source_path:  'src',
@@ -40,6 +41,7 @@ config :pandocker, defaults: %{
 }
 
 config :pandocker, tokens: %{
+  command: ~r/^\s*(?P<command>(compile|help|test))/,
   config_yaml: ~r/-f (?P<config_yaml>\/?(\w+\/?)*\w+\.(yaml|yml))/,
 }
 

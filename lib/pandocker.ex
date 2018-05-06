@@ -20,7 +20,23 @@ defmodule Pandocker do
 
   """
   def run do
+    command = ConfigManager.get_env(:command) |> String.to_atom
+
+    "Elixir.Pandocker"
+    |> String.to_existing_atom
+    |> apply(command, [])
+  end
+
+  def compile do
     ConfigManager.get_yaml_section(:sections)
     |> Pandoc.compile
+  end
+
+  def help do
+    raise "Not Implemented"
+  end
+
+  def test do
+    raise "Not Implemented"
   end
 end

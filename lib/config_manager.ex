@@ -41,6 +41,7 @@ defmodule ConfigManager do
   ## Examples
 
     iex> System.put_env("PANDOCKER_CONFIG_YAML", "test.yml")
+    iex> System.put_env("PANDOCKER_PATH",
     iex> ConfigManager.get_yaml_section(:sections)
     ["example.md"]
 
