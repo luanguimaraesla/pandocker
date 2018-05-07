@@ -24,9 +24,9 @@ defmodule Configuration.Manager do
   """
   def get_env(key) when is_atom(key) do
     cmd_arg = fetch_cmd_arg(key)
-    sys_env = get_app_config(:envs, key)
+    sys_env = get_app_config(:envs, key) |> get_sys_env()
     default = get_app_config(:defaults, key)
-    cmd_arg || (try do: (System.get_env sys_env), rescue: (_ -> nil)) || default
+    cmd_arg || sys_env || default
   end
 
   @doc """
@@ -123,6 +123,14 @@ defmodule Configuration.Manager do
       |> Regex.named_captures(get_env(:cmd))
       |> Map.get(Atom.to_string(key))
     rescue
+      _ -> nil
+    end
+  end
+
+  defp get_sys_env(sys_env) do
+    try do
+      System.get_env sys_env
+    rescue 
       _ -> nil
     end
   end

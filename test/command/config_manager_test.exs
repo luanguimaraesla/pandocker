@@ -1,6 +1,6 @@
-defmodule ConfigManagerTest do
+defmodule Configuration.Manager do
   use ExUnit.Case
-  doctest ConfigManager
+  doctest Configuration.Manager
 
   test "retrieve default environment variables" do
     assert ConfigManager.get_env(:output_file) == \

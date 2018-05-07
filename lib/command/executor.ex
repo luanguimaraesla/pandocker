@@ -27,17 +27,13 @@ defmodule Command.Executor do
     :ok
 
   """
-  def dispatch(pandoc_command) do
-    root  = Configuration.Manager.get_env(:project_root)
-    source = Configuration.Manager.get_config(:pandoc, :source_path, &List.to_string/1)
-    output = Configuration.Manager.get_config(:pandoc, :output_file, &List.to_string/1)
-
-    ["cd " <> Path.join(root, source), pandoc_command, "mv #{output} #{root}"]
+  def dispatch(commands) do
+    commands
+    |> List.insert_at(0, goto_source_command())
     |> make_os_command
     |> execute
     :ok
   end
-
 
   defp execute(command) do
     command
@@ -48,7 +44,13 @@ defmodule Command.Executor do
 
   defp make_os_command(commands) when is_list(commands) do
     os_command = Enum.join(commands, " && ")
-    Logger.info "Command: " <> os_command
+    Logger.info "Executing: " <> os_command
     String.to_charlist(os_command)
+  end
+
+  defp goto_source_command do
+    root  = Configuration.Manager.get_env(:project_root)
+    source = Configuration.Manager.get_config(:pandoc, :source_path, &List.to_string/1)
+    "cd " <> Path.join(root, source)
   end
 end

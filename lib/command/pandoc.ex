@@ -32,10 +32,24 @@ defmodule Command.Pandoc do
   end
 
   defp build_command(flags, files) do
-    "pandoc"
-    |> add_args(flags)
-    |> add_args(custom_flags())
-    |> add_args(files)
+    [pandoc_command(flags, files), copyback_command()]
+  end
+
+  defp copyback_command do
+    root  = Configuration.Manager.get_env(:project_root)
+    output = Configuration.Manager.get_config(
+      :pandoc,
+      :output_file,
+      &List.to_string/1
+    )
+    "mv #{output} #{root}"
+  end
+
+  defp pandoc_command(flags, files) do
+    pandoc_command = "pandoc"
+      |> add_args(flags)
+      |> add_args(custom_flags())
+      |> add_args(files)
   end
 
   defp add_args(command, nil), do: command
