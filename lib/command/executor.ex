@@ -1,4 +1,4 @@
-defmodule Executor do
+defmodule Command.Executor do
   @moduledoc """
   Module to execute Pandocker command using the :os.cmd command from erlang
 
@@ -28,9 +28,9 @@ defmodule Executor do
 
   """
   def dispatch(pandoc_command) do
-    root  = ConfigManager.get_env(:project_root)
-    source = ConfigManager.get_config(:pandoc, :source_path, &List.to_string/1)
-    output = ConfigManager.get_config(:pandoc, :output_file, &List.to_string/1)
+    root  = Configuration.Manager.get_env(:project_root)
+    source = Configuration.Manager.get_config(:pandoc, :source_path, &List.to_string/1)
+    output = Configuration.Manager.get_config(:pandoc, :output_file, &List.to_string/1)
 
     ["cd " <> Path.join(root, source), pandoc_command, "mv #{output} #{root}"]
     |> make_os_command

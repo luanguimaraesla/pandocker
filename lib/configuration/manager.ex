@@ -1,4 +1,4 @@
-defmodule ConfigManager do
+defmodule Configuration.Manager do
   @moduledoc """
   This module provides a simple interface to manage the Pandocker's configurations.
 
@@ -18,7 +18,7 @@ defmodule ConfigManager do
 
   ## Examples
 
-    iex> ConfigManager.get_env(:output_file)
+    iex> Configuration.Manager.get_env(:output_file)
     'out.pdf'
 
   """
@@ -42,7 +42,7 @@ defmodule ConfigManager do
 
     iex> System.put_env("PANDOCKER_CONFIG_YAML", "test.yml")
     iex> System.put_env("PANDOCKER_PATH",
-    iex> ConfigManager.get_yaml_section(:sections)
+    iex> Configuration.Manager.get_yaml_section(:sections)
     ["example.md"]
 
   """
@@ -65,13 +65,13 @@ defmodule ConfigManager do
 
   ## Examples
 
-    iex> ConfigManager.get_config(:pandoc, :output_file)
+    iex> Configuration.Manager.get_config(:pandoc, :output_file)
     'out.pdf'
 
   """
   def get_config(section, key) when is_atom(key) do
     try do
-      Map.new(ConfigManager.get_yaml_section(section))
+      Map.new(get_yaml_section(section))
       |> Map.get(Atom.to_charlist(key)) || get_env(key)
     rescue
       _ -> get_env(key)
@@ -92,7 +92,7 @@ defmodule ConfigManager do
 
   ## Examples
 
-    iex> ConfigManager.get_config(:pandoc, :output_file, &List.to_string/1)
+    iex> Configuration.Manager.get_config(:pandoc, :output_file, &List.to_string/1)
     "out.pdf"
 
   """

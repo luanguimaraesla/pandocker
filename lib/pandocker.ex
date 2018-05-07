@@ -24,7 +24,7 @@ defmodule Pandocker do
 
   """
   def run do
-    command = ConfigManager.get_env(:command) |> String.to_atom
+    command = Configuration.Manager.get_env(:command) |> String.to_atom
 
     "Elixir.Pandocker"
     |> String.to_existing_atom
@@ -32,8 +32,8 @@ defmodule Pandocker do
   end
 
   def compile do
-    ConfigManager.get_yaml_section(:sections)
-    |> Pandoc.compile
+    Configuration.Manager.get_yaml_section(:sections)
+    |> Command.Pandoc.compile
   end
 
   def help do
