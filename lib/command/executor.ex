@@ -19,11 +19,11 @@ defmodule Command.Executor do
 
   ## Parameters
 
-    - pandoc_command: String with the pandoc shell command to run.
+    - commands: List of strings with some shell commands to run.
 
   ## Examples
 
-    iex> Executor.dispatch("pandoc -o out.pdf test.md")
+    iex> Command.Executor.dispatch(["pandoc -o out.pdf test.md"])
     :ok
 
   """

@@ -8,6 +8,8 @@ defmodule Configuration.Manager do
   both are described in the config/config.exs file.
   """
 
+  require Logger
+
 
   @doc """
   Get a specific System Environment Variable or use a default value
@@ -41,9 +43,9 @@ defmodule Configuration.Manager do
   ## Examples
 
     iex> System.put_env("PANDOCKER_CONFIG_YAML", "test.yml")
-    iex> System.put_env("PANDOCKER_PATH",
+    iex> System.put_env("PANDOCKER_PATH", "test/")
     iex> Configuration.Manager.get_yaml_section(:sections)
-    ["example.md"]
+    ['config.md', 'example.md']
 
   """
   def get_yaml_section(section) when is_atom(section) do
@@ -113,7 +115,13 @@ defmodule Configuration.Manager do
 
   defp load_configurations(path) do
     full_path = Path.join(get_env(:project_root), path)
-    Map.new(hd :yamerl_constr.file(full_path))
+    try do
+      Map.new(hd :yamerl_constr.file(full_path))
+    catch
+      err ->
+        err |> elem(1) |> hd |> elem(2) |> List.to_string |> Logger.error
+        exit(1)
+    end
   end
 
   defp fetch_cmd_arg(:cmd), do: nil   # Avoid deadlocks

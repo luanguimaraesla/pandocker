@@ -46,10 +46,10 @@ defmodule Command.Pandoc do
   end
 
   defp pandoc_command(flags, files) do
-    pandoc_command = "pandoc"
-      |> add_args(flags)
-      |> add_args(custom_flags())
-      |> add_args(files)
+    "pandoc"
+    |> add_args(flags)
+    |> add_args(custom_flags())
+    |> add_args(files)
   end
 
   defp add_args(command, nil), do: command

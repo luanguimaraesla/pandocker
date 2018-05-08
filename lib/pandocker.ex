@@ -19,6 +19,7 @@ defmodule Pandocker do
   ## Example:
 
     iex> System.put_env("PANDOCKER_CONFIG_YAML", "test.yml")
+    iex> System.put_env("PANDOCKER_CMD", "help")
     iex> Pandocker.run
     :ok
 
