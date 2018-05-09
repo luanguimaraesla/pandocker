@@ -27,26 +27,14 @@ defmodule Pandocker do
   def run do
     command = Configuration.Manager.get_env(:command) |> String.to_atom
 
-    "Elixir.Pandocker"
+    {module, arg} = case command do
+      :compile -> {"Elixir.Command.Pandoc", Configuration.Manager.get_yaml_section(:sections)}
+      :help -> {"Elixir.Command.Help", nil}
+      _ -> raise "Missing function"
+    end
+
+    module
     |> String.to_existing_atom
-    |> apply(command, [])
-  end
-
-  def compile do
-    Configuration.Manager.get_yaml_section(:sections)
-    |> Command.Pandoc.compile
-  end
-
-  def help do
-    raise "Not Implemented"
-  end
-
-  @doc """
-  runs system sleep infinity to permit user login into docker
-  container and execute whatever he wants, including tests.
-  """
-  def sleep do
-    Logger.info("Sleeping")
-    System.cmd("sleep", ["infinity"])
+    |> apply(:exec, (if arg, do: [arg], else: []))
   end
 end

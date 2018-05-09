@@ -41,6 +41,6 @@ ENTRYPOINT ["/entrypoint.sh"]
 WORKDIR /pandocker
 ADD . /pandocker 
 
-RUN mv /tmp/_build /tmp/deps /tmp/mix.lock /pandocker/ && \
+RUN mv /tmp/* /pandocker/ && \
     mix local.rebar --force && \
     mix compile

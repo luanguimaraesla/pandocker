@@ -20,11 +20,11 @@ defmodule Command.Pandoc do
 
   ## Examples
 
-    iex> Pandoc.compile(["test.md])
+    iex> Pandoc.exec(["test.md])
     :ok
 
   """
-  def compile(files) do
+  def exec(files) do
     configure_flags()
     |> build_flags()
     |> build_command(files)
