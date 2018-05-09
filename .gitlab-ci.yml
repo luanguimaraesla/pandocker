@@ -25,11 +25,13 @@ build to gitlab:
     - cache
 
 test:
-  image: $RELEASE_IMAGE
+  image: docker:latest
   stage: tests
+  services:
+    - docker:dind
   script:
-    - mix test
-  environment: other
+    - docker run --entrypoint="mix" $RELEASE_IMAGE "test"
+  environment: development
   tags:
     - docker
     - cache
