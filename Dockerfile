@@ -28,14 +28,19 @@ RUN apt-get install -y gnupg2 && \
     curl -L http://packages.erlang-solutions.com/debian/erlang_solutions.asc | apt-key add - && \
     apt-get update && apt-get install -y elixir && apt-get clean -y
 
+ENV LANG=C.UTF-8 \
+    MIX_ENV=prod
 ADD mix.exs /tmp/mix.exs
 RUN cd /tmp && \
     mix local.hex --force && \
     mix deps.get
 
-ENV LANG=C.UTF-8
 ADD entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
 
 WORKDIR /pandocker
 ADD . /pandocker 
+
+RUN mv /tmp/_build /tmp/deps /tmp/mix.lock /pandocker/ && \
+    mix local.rebar --force && \
+    mix compile

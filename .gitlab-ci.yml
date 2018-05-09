@@ -30,7 +30,8 @@ test:
   services:
     - docker:dind
   script:
-    - docker run --entrypoint="mix" $RELEASE_IMAGE "test"
+    - docker run -e MIX_ENV=test --entrypoint="/usr/bin/sh" $RELEASE_IMAGE -c
+      "mix local.hex --force && mix deps.get && mix test"
   environment: development
   tags:
     - docker
