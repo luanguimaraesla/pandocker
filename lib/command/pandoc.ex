@@ -1,4 +1,4 @@
-defmodule Pandoc do
+defmodule Command.Pandoc do
   @moduledoc """
   This module provides a simple interface to build and execute a complex
   pandoc command line according to the pandocker configurations.
@@ -8,6 +8,7 @@ defmodule Pandoc do
     - `compile/1`: compiles a list of files
   """
 
+  alias Command.Executor
 
   @doc """
   Compiles an ordered list of files according to pandocker configuration
@@ -19,11 +20,11 @@ defmodule Pandoc do
 
   ## Examples
 
-    iex> Pandoc.compile(["test.md])
+    iex> Pandoc.exec(["test.md])
     :ok
 
   """
-  def compile(files) do
+  def exec(files) do
     configure_flags()
     |> build_flags()
     |> build_command(files)
@@ -31,6 +32,20 @@ defmodule Pandoc do
   end
 
   defp build_command(flags, files) do
+    [pandoc_command(flags, files), copyback_command()]
+  end
+
+  defp copyback_command do
+    root  = Configuration.Manager.get_env(:project_root)
+    output = Configuration.Manager.get_config(
+      :pandoc,
+      :output_file,
+      &List.to_string/1
+    )
+    "mv #{output} #{root}"
+  end
+
+  defp pandoc_command(flags, files) do
     "pandoc"
     |> add_args(flags)
     |> add_args(custom_flags())
@@ -54,12 +69,12 @@ defmodule Pandoc do
 
   defp build_flags(flag_map) do
     for {k, v} <- flag_map do
-      ConfigManager.get_config(:pandoc, k) |> v[:func].(v[:token])
+      Configuration.Manager.get_config(:pandoc, k) |> v[:func].(v[:token])
     end
   end
 
   defp custom_flags do
-    ConfigManager.get_config(:pandoc, :custom_flags, &List.to_string/1)
+    Configuration.Manager.get_config(:pandoc, :custom_flags, &List.to_string/1)
   end
 
   defp make_some_flags(values, option) do

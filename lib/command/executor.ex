@@ -1,4 +1,4 @@
-defmodule Executor do
+defmodule Command.Executor do
   @moduledoc """
   Module to execute Pandocker command using the :os.cmd command from erlang
 
@@ -19,25 +19,21 @@ defmodule Executor do
 
   ## Parameters
 
-    - pandoc_command: String with the pandoc shell command to run.
+    - commands: List of strings with some shell commands to run.
 
   ## Examples
 
-    iex> Executor.dispatch("pandoc -o out.pdf test.md")
+    iex> Command.Executor.dispatch(["pandoc -o out.pdf test.md"])
     :ok
 
   """
-  def dispatch(pandoc_command) do
-    root  = ConfigManager.get_env(:project_root)
-    source = ConfigManager.get_config(:pandoc, :source_path, &List.to_string/1)
-    output = ConfigManager.get_config(:pandoc, :output_file, &List.to_string/1)
-
-    ["cd " <> Path.join(root, source), pandoc_command, "mv #{output} #{root}"]
+  def dispatch(commands) do
+    commands
+    |> List.insert_at(0, goto_source_command())
     |> make_os_command
     |> execute
     :ok
   end
-
 
   defp execute(command) do
     command
@@ -48,7 +44,13 @@ defmodule Executor do
 
   defp make_os_command(commands) when is_list(commands) do
     os_command = Enum.join(commands, " && ")
-    Logger.info "Command: " <> os_command
+    Logger.info "Executing: " <> os_command
     String.to_charlist(os_command)
+  end
+
+  defp goto_source_command do
+    root  = Configuration.Manager.get_env(:project_root)
+    source = Configuration.Manager.get_config(:pandoc, :source_path, &List.to_string/1)
+    "cd " <> Path.join(root, source)
   end
 end

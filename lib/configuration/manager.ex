@@ -1,4 +1,4 @@
-defmodule ConfigManager do
+defmodule Configuration.Manager do
   @moduledoc """
   This module provides a simple interface to manage the Pandocker's configurations.
 
@@ -7,6 +7,8 @@ defmodule ConfigManager do
   and third are through environment variables or application variables,
   both are described in the config/config.exs file.
   """
+
+  require Logger
 
 
   @doc """
@@ -18,15 +20,15 @@ defmodule ConfigManager do
 
   ## Examples
 
-    iex> ConfigManager.get_env(:output_file)
+    iex> Configuration.Manager.get_env(:output_file)
     'out.pdf'
 
   """
   def get_env(key) when is_atom(key) do
     cmd_arg = fetch_cmd_arg(key)
-    sys_env = get_app_config(:envs, key)
+    sys_env = get_app_config(:envs, key) |> get_sys_env()
     default = get_app_config(:defaults, key)
-    cmd_arg || (try do: (System.get_env sys_env), rescue: (_ -> nil)) || default
+    cmd_arg || sys_env || default
   end
 
   @doc """
@@ -41,8 +43,9 @@ defmodule ConfigManager do
   ## Examples
 
     iex> System.put_env("PANDOCKER_CONFIG_YAML", "test.yml")
-    iex> ConfigManager.get_yaml_section(:sections)
-    ["example.md"]
+    iex> System.put_env("PANDOCKER_PATH", "test/")
+    iex> Configuration.Manager.get_yaml_section(:sections)
+    ['config.md', 'example.md']
 
   """
   def get_yaml_section(section) when is_atom(section) do
@@ -64,13 +67,13 @@ defmodule ConfigManager do
 
   ## Examples
 
-    iex> ConfigManager.get_config(:pandoc, :output_file)
+    iex> Configuration.Manager.get_config(:pandoc, :output_file)
     'out.pdf'
 
   """
   def get_config(section, key) when is_atom(key) do
     try do
-      Map.new(ConfigManager.get_yaml_section(section))
+      Map.new(get_yaml_section(section))
       |> Map.get(Atom.to_charlist(key)) || get_env(key)
     rescue
       _ -> get_env(key)
@@ -91,7 +94,7 @@ defmodule ConfigManager do
 
   ## Examples
 
-    iex> ConfigManager.get_config(:pandoc, :output_file, &List.to_string/1)
+    iex> Configuration.Manager.get_config(:pandoc, :output_file, &List.to_string/1)
     "out.pdf"
 
   """
@@ -112,7 +115,13 @@ defmodule ConfigManager do
 
   defp load_configurations(path) do
     full_path = Path.join(get_env(:project_root), path)
-    Map.new(hd :yamerl_constr.file(full_path))
+    try do
+      Map.new(hd :yamerl_constr.file(full_path))
+    catch
+      err ->
+        err |> elem(1) |> hd |> elem(2) |> List.to_string |> Logger.error
+        exit(1)
+    end
   end
 
   defp fetch_cmd_arg(:cmd), do: nil   # Avoid deadlocks
@@ -122,6 +131,14 @@ defmodule ConfigManager do
       |> Regex.named_captures(get_env(:cmd))
       |> Map.get(Atom.to_string(key))
     rescue
+      _ -> nil
+    end
+  end
+
+  defp get_sys_env(sys_env) do
+    try do
+      System.get_env sys_env
+    rescue 
       _ -> nil
     end
   end
