@@ -20,6 +20,7 @@ build to gitlab:
   environment: development
   tags:
     - docker
+    - cache
 
 test:
   image: $RELEASE_IMAGE
@@ -31,6 +32,7 @@ test:
   environment: other
   tags:
     - docker
+    - cache
 
 deploy to dockerhub:
   image: docker:latest
@@ -47,3 +49,4 @@ deploy to dockerhub:
   environment: production
   tags:
     - docker
+    - cache
