@@ -1,5 +1,10 @@
 # pandocker 0.2.0
 
+
+
+[![pipeline status](https://gitlab.com/luanguimaraesla/pandocker/badges/master/pipeline.svg)](https://gitlab.com/luanguimaraesla/pandocker/commits/master)
+
+
 Docker version of full-featured pandoc to convert Markdown documents to pdf.
 
 Github: https://github.com/luanguimaraesla/pandocker

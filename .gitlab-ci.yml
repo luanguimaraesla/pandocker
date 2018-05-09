@@ -4,7 +4,9 @@ stages:
   - deploy
 
 variables:
+  DOCKER_DRIVER: overlay2
   RELEASE_IMAGE: $CI_REGISTRY_IMAGE:$CI_BUILD_REF_NAME
+  LATEST_IMAGE: "$CI_REGISTRY_IMAGE:latest"
 
 build to gitlab:
   image: docker:latest
@@ -12,11 +14,11 @@ build to gitlab:
   services:
     - docker:dind
   script:
+    - docker pull $LATEST_IMAGE || true
     - docker login -u "gitlab-ci-token" -p "$CI_JOB_TOKEN" $CI_REGISTRY
-    - docker build -t $RELEASE_IMAGE .
-    - docker tag $RELEASE_IMAGE "$CI_REGISTRY_IMAGE:latest"
+    - docker build --cache-from $LATEST_IMAGE --tag $RELEASE_IMAGE --tag $LATEST_IMAGE .
     - docker push $RELEASE_IMAGE
-    - docker push "$CI_REGISTRY_IMAGE:latest"
+    - docker push $LATEST_IMAGE
   environment: development
   tags:
     - docker
@@ -25,8 +27,6 @@ build to gitlab:
 test:
   image: $RELEASE_IMAGE
   stage: tests
-  services:
-    - docker:dind
   script:
     - mix test
   environment: other
