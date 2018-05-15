@@ -81,7 +81,11 @@ sudo docker run --rm -v `pwd`:/code luanguimaraesla/pandocker:0.2.0 "-f src/pand
 You can alias this _f*ck$@!_ command using:
 
 ```bash
-alias pandocker="sudo docker run --rm -v `pwd`:/code luanguimaraesla/pandocker:0.2.0"
+cat - << EOT >> ~/.bashrc
+function pandocker() {
+  sudo docker run --rm -v $(pwd):/code luanguimaraesla/pandocker:0.3.0 $@
+}
+EOT
 ```
 
 Then, you'll be able to use Pandocker like a pro:
