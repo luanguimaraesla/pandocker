@@ -83,7 +83,7 @@ You can alias this _f*ck$@!_ command using:
 ```bash
 cat - << EOT >> ~/.bashrc
 function pandocker() {
-  sudo docker run --rm -v $(pwd):/code luanguimaraesla/pandocker:0.3.0 $@
+  sudo docker run --rm -v $(pwd):/code luanguimaraesla/pandocker:0.2.0 $@
 }
 EOT
 ```
