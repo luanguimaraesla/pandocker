@@ -8,7 +8,7 @@ defmodule Command.Help do
   """
   def exec do
     IO.puts("""
-    usage:  pandocker [compile|help] [-f yaml-configuration-file]
+    usage:  pandocker [compile|help|new] [-f yaml-configuration-file -t template]
 
     See full documentation at https://github.com/luanguimaraesla/pandocker
     """)
