@@ -239,9 +239,25 @@ Read more about pandoc-citeproc: [pandoc-citeproc man page](https://github.com/j
 
 ### Mathematics
 
-You can write math following the LaTeX style. All you want to do is use double `$` to mathematics blocks, `$$ <math-code> $$`, and single `$` to inline mathematics `$ <math-code> $`.
+You can write math code following the LaTeX style. All you want to do is use double `$` to mathematics blocks: 
 
-We usually use [codecogs](https://www.codecogs.com/latex/eqneditor.php?lang=pt-br) to generate my math code.
+```
+Text text text
+
+$$
+  <math-code>
+$$
+
+Text text text
+```
+
+It is possible to add inline math code using a single `$`:
+
+```
+Text text $ <math-code> $, text text.
+```
+
+We usually use [codecogs](https://www.codecogs.com/latex/eqneditor.php?lang=pt-br) to generate math code.
 
 ### Cross Reference
 
