@@ -1,23 +1,90 @@
-# pandocker 0.2.0
-
+# pandocker 0.3.0
 
 
 [![pipeline status](https://gitlab.com/luanguimaraesla/pandocker/badges/master/pipeline.svg)](https://gitlab.com/luanguimaraesla/pandocker/commits/master)
 
 
-Docker version of full-featured pandoc to convert Markdown documents to pdf.
+Docker version of full-featured pandoc to convert complex Markdown documents to pdf.
 
 Github: https://github.com/luanguimaraesla/pandocker
+
 Gitlab: https://gitlab.com/luanguimaraesla/pandocker
 
-## Dependencies
+## Install
+
+### Dependencies
 
 All you need is the docker engine enabled to run the pandocker environment.
 Follow the docker docs: https://docs.docker.com/install/
 
-## Setup
+Make sure that docker is running:
 
-Pandocker expects you setup some initial project structure. We suggest the following simple model:
+```bash
+sudo systemctl start docker
+```
+
+### Installing
+
+Now you can install pandocker like any other docker:
+
+```bash
+sudo systemctl start docker
+sudo docker pull luanguimaraesla/pandocker:0.3.0
+```
+
+`WARNING`: Because of full-latex, haskell, pandoc, pandoc-filters and erlang dependencies, download may take too long, so be patient.
+
+### Configuring
+
+Like many system tools built in Docker architecture, Pandocker must be executed using docker command line.
+
+```bash
+sudo docker run --rm -v $(pwd):/code luanguimaraesla/pandocker:0.3.0 help
+```
+
+However, to ease the usage, you can alias this _f*ck$@!_ command just typing it in the terminal:
+
+```bash
+cat - << EOT >> ~/.bashrc
+function pandocker() {
+  sudo docker run --rm -v $(pwd):/code luanguimaraesla/pandocker:0.3.0 $@
+}
+EOT
+source ~/.bashrc
+```
+
+Then, you'll be able to use Pandocker like a pro:
+
+```bash
+pandocker help
+```
+
+## Usage
+
+### Quick start
+
+Choose a template in [Pandocker Templates Site](https://github.com/luanguimaraesla/pandocker-templates)
+
+Create an empty directory to your new Pandocker project and execute pandocker to setup the template structure:
+
+
+```bash
+mkdir myproject && cd myproject
+pandocker new -t [template-name]
+sudo chown -R $USER:$USER .
+```
+
+The `chown` command will enable you to edit the files created inside docker.
+
+Now, you can update the files according to the template specification and compile your markdown files to PDF executing:
+
+```bash
+pandocker compile -f pandocker.yml
+```
+
+### Custom templates
+
+If you need to create your own project structure, Pandocker expects you setup some initial project structure. We suggest the following simple model:
 
 ```
 your-project/
@@ -30,7 +97,7 @@ your-project/
 | | | optional-custom-template.latex
 ```
 
-### Schema
+#### Schema
 
 * **src/**: directory where you should put all your Markdown (`.md` extension) files;
 * **src/images/**: directory to store yout images;
@@ -41,9 +108,9 @@ your-project/
 
 How can you correctly configure the files? See below the basic usage.
 
-## Usage
+### Understanting common Pandocker files
 
-### YAML configuration file
+#### YAML configuration file
 
 You can setup all the configurations of Pandocker with a custom YAML file:
 
@@ -68,35 +135,8 @@ pandoc:
 
 All the sections will be compiled according to the order described in the YAML configuration file. Also, Pandocker uses the `pandoc` section to configure the flags for the compilation.
 
-### Running
 
-Now, all you need is to run the next command lines:
-
-```bash
-sudo systemctl start docker
-cd your-project/
-sudo docker run --rm -v `pwd`:/code luanguimaraesla/pandocker:0.2.0 "-f src/pandocker.yml"
-```
-
-You can alias this _f*ck$@!_ command using:
-
-```bash
-cat - << EOT >> ~/.bashrc
-function pandocker() {
-  sudo docker run --rm -v $(pwd):/code luanguimaraesla/pandocker:0.2.0 $@
-}
-EOT
-```
-
-Then, you'll be able to use Pandocker like a pro:
-
-```bash
-cd your-project/
-pandocker -f src/pandocker.yml
-```
-
-
-### config.md
+#### config.md
 
 This is the Pandoc metadata YAML. It should be your first file described in the `pandocker.yml` file. Here you can configure the behavior of pandoc, filters and templates. Look a simple example:
 
@@ -130,7 +170,7 @@ codeBlockCaptions: true
 
 Read more about [pandoc metadata](https://pandoc.org/MANUAL.html#using-variables-in-templates), [pandoc-citeproc](https://github.com/jgm/pandoc-citeproc/blob/master/man/pandoc-citeproc.1.md), and [pandoc-crossref](http://lierdakil.github.io/pandoc-crossref/).
 
-### bib.yml
+#### bib.yml
 
 YAML-CSL file where you should write your project's bibliography. This is not a BibTeX like tool, this is much easier. Following the YAML structure, all you need to know is the [Citation Style Language (CSL) variables](http://docs.citationstyles.org/en/1.0.1/specification.html#appendix-iv-variables). Your bibliography file should be like this:
 
@@ -194,6 +234,9 @@ Jollife [-@joll02] said something.
 
 Read more about pandoc-citeproc: [pandoc-citeproc man page](https://github.com/jgm/pandoc-citeproc/blob/master/man/pandoc-citeproc.1.md).
 
+
+## Pandocker common usage
+
 ### Mathematics
 
 You can write math following the LaTeX style. All you want to do is use double `$` to mathematics blocks, `$$ <math-code> $$`, and single `$` to inline mathematics `$ <math-code> $`.
@@ -223,6 +266,6 @@ Look the values on the [@tbl:unique-table-ref]
 
 The value '1' is the order of this table in the final document. You can learn more about `pandoc-crossref` at https://github.com/lierdakil/pandoc-crossref.
 
-### Templates
+### Latex templates
 
 The template is a `.latex` file. Its description is under the theme of this explanation. Learn how to create your own template with this simple example: https://gist.github.com/michaelt/1017790
