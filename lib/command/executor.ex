@@ -27,9 +27,9 @@ defmodule Command.Executor do
     :ok
 
   """
-  def dispatch(commands) do
+  def dispatch({execution_path, commands}) do
     commands
-    |> List.insert_at(0, goto_source_command())
+    |> List.insert_at(0, goto_execution_path(execution_path))
     |> make_os_command
     |> execute
     :ok
@@ -48,9 +48,7 @@ defmodule Command.Executor do
     String.to_charlist(os_command)
   end
 
-  defp goto_source_command do
-    root  = Configuration.Manager.get_env(:project_root)
-    source = Configuration.Manager.get_config(:pandoc, :source_path, &List.to_string/1)
-    "cd " <> Path.join(root, source)
+  defp goto_execution_path(execution_path) do
+    "cd " <> execution_path
   end
 end

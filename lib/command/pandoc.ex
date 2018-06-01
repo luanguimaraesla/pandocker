@@ -32,7 +32,10 @@ defmodule Command.Pandoc do
   end
 
   defp build_command(flags, files) do
-    [pandoc_command(flags, files), copyback_command()]
+    root  = Configuration.Manager.get_env(:project_root)
+    source = Configuration.Manager.get_config(:pandoc, :source_path, &List.to_string/1)
+    execution_path = Path.join(root, source)
+    {execution_path, [pandoc_command(flags, files), copyback_command()]}
   end
 
   defp copyback_command do

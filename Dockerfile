@@ -37,7 +37,7 @@ RUN apt-get install -y gnupg2 && \
     && curl -L http://packages.erlang-solutions.com/debian/erlang_solutions.asc | apt-key add - \
     && apt-get update \
     && mkdir -p /usr/share/man/man1/ \
-    && apt-get install -y elixir erlang-inets erlang --no-install-recommends \
+    && apt-get install -y git elixir erlang-inets erlang --no-install-recommends \
     && apt-get clean -y
 
 ADD mix.exs /tmp/mix.exs

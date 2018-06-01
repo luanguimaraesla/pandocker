@@ -32,17 +32,19 @@ config :pandocker, envs: %{
 }
 
 config :pandocker, defaults: %{
-  command: "help",
-  config_yaml:  "pandocker.yml",
-  project_root: "/code",
-  source_path:  'src',
-  output_file:  'out.pdf',
-  files:        "/pandocker/examples/example.md"
+  command:        "help",
+  config_yaml:    "pandocker.yml",
+  project_root:   "/code",
+  source_path:    'src',
+  output_file:    'out.pdf',
+  files:          "/pandocker/examples/example.md",
+  templates_url:  "https://github.com/luanguimaraesla/pandocker-templates",
 }
 
 config :pandocker, tokens: %{
-  command: ~r/^\s*(?P<command>(compile|help|new))/,
-  config_yaml: ~r/-f (?P<config_yaml>\/?(\w+\/?)*\w+\.(yaml|yml))/,
+  command:        ~r/^\s*(?P<command>(compile|help|new))/,
+  template:       ~r/(-t|--template)\s*(?<template>[-\._\w]+)/,
+  config_yaml:    ~r/-f (?P<config_yaml>\/?(\w+\/?)*\w+\.(yaml|yml))/,
 }
 
 # It is also possible to import configuration files, relative to this

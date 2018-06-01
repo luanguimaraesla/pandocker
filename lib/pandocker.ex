@@ -28,6 +28,7 @@ defmodule Pandocker do
     command = Configuration.Manager.get_env(:command) |> String.to_atom
 
     {module, arg} = case command do
+      :new -> {"Elixir.Command.New", nil}
       :compile -> {"Elixir.Command.Pandoc", Configuration.Manager.get_yaml_section(:sections)}
       :help -> {"Elixir.Command.Help", nil}
       _ -> raise "Missing function"
