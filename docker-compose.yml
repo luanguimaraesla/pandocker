@@ -1,0 +1,10 @@
+version: '2'
+
+services:
+  pandocker:
+    image: luanguimaraesla/pandocker:0.3.1
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    volumes:
+      - .:/pandocker
