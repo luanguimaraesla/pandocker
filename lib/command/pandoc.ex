@@ -80,6 +80,7 @@ defmodule Command.Pandoc do
     Configuration.Manager.get_config(:pandoc, :custom_flags, &List.to_string/1)
   end
 
+  defp make_some_flags(nil, _), do: ""
   defp make_some_flags(values, option) do
     flags = for v <- values, do: make_flag(v, option)
     Enum.join(flags, " ")

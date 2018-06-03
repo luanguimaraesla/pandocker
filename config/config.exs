@@ -39,12 +39,13 @@ config :pandocker, defaults: %{
   output_file:    'out.pdf',
   files:          "/pandocker/examples/example.md",
   templates_url:  "https://github.com/luanguimaraesla/pandocker-templates",
+  template:       "default"
 }
 
 config :pandocker, tokens: %{
   command:        ~r/^\s*(?P<command>(compile|help|new))/,
   template:       ~r/(-t|--template)\s*(?<template>[-\._\w]+)/,
-  config_yaml:    ~r/-f (?P<config_yaml>\/?(\w+\/?)*\w+\.(yaml|yml))/,
+  config_yaml:    ~r/-f (?P<config_yaml>\/?([-_\w\d\.]+\/?)*[-_\w\d\.]+\.(yaml|yml))/,
 }
 
 # It is also possible to import configuration files, relative to this
