@@ -1,4 +1,4 @@
-# pandocker 0.3.0
+# pandocker 0.3.1
 
 
 [![pipeline status](https://gitlab.com/luanguimaraesla/pandocker/badges/master/pipeline.svg)](https://gitlab.com/luanguimaraesla/pandocker/commits/master)
@@ -29,7 +29,7 @@ Now you can install pandocker like any other docker:
 
 ```bash
 sudo systemctl start docker
-sudo docker pull luanguimaraesla/pandocker:0.3.0
+sudo docker pull luanguimaraesla/pandocker:0.3.1
 ```
 
 `WARNING`: Because of full-latex, haskell, pandoc, pandoc-filters and erlang dependencies, download may take too long, so be patient.
@@ -39,7 +39,7 @@ sudo docker pull luanguimaraesla/pandocker:0.3.0
 Like many system tools built in Docker architecture, Pandocker must be executed using docker command line.
 
 ```bash
-sudo docker run --rm -v $(pwd):/code luanguimaraesla/pandocker:0.3.0 help
+sudo docker run --rm -v $(pwd):/code luanguimaraesla/pandocker:0.3.1 help
 ```
 
 However, to ease the usage, you can alias this _f*ck$@!_ command just typing it in the terminal:
@@ -47,7 +47,7 @@ However, to ease the usage, you can alias this _f*ck$@!_ command just typing it 
 ```bash
 cat - << EOT >> ~/.bashrc
 function pandocker() {
-  sudo docker run --rm -v $(pwd):/code luanguimaraesla/pandocker:0.3.0 $@
+  sudo docker run --rm -v $(pwd):/code luanguimaraesla/pandocker:0.3.1 $@
 }
 EOT
 source ~/.bashrc
@@ -63,24 +63,34 @@ pandocker help
 
 ### Quick start
 
-Choose a template in [Pandocker Templates Site](https://github.com/luanguimaraesla/pandocker-templates)
+Create an empty directory to your new Pandocker project and execute pandocker to setup the template structure. Then compile the source files:
 
-Create an empty directory to your new Pandocker project and execute pandocker to setup the template structure:
+```bash
+mkdir myproject
+cd myproject
+pandocker new
+pandocker compile
+```
 
+`WARNING`: because of docker architecture, to edit the files you'll need to run `chown` command inside your project directory:
+
+```bash
+sudo chown -R $USER:$USER .
+```
+
+Pandocker uses some default settings, `default` and `pandocker.yml` to the `new` and `compile` commands respectively. If you want to use a preconfigured template, find its name in [Pandocker Templates Site](https://github.com/luanguimaraesla/pandocker-templates), then you can tell Pandocker to create a new project according to this template:
 
 ```bash
 mkdir myproject && cd myproject
 pandocker new -t [template-name]
-sudo chown -R $USER:$USER .
 ```
 
-The `chown` command will enable you to edit the files created inside docker.
-
-Now, you can update the files according to the template specification and compile your markdown files to PDF executing:
+In the same way, you can use some configurations files to organize better your projects. So, all you need is to tell Pandocker which YAML file you want in the compilation:
 
 ```bash
-pandocker compile -f pandocker.yml
+pandocker compile -f custom.pandocker.yml
 ```
+
 
 ### Custom templates
 
