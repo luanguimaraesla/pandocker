@@ -8,7 +8,17 @@ defmodule Command.Help do
   """
   def exec do
     IO.puts("""
-    usage:  pandocker [compile|help|new] [-f yaml-configuration-file -t template]
+    usage:  pandocker [new [-t template]] [compile [-f yaml-configuration]]
+
+    COMMANDS
+    
+      new           Creates a new Pandocker structure
+      compile       Generates the PDF file from the template
+
+    OPTIONS
+
+      --file (-f)       Specifies a Pandocker template file
+      --template (-t)   Specifies a Git template structure
 
     See full documentation at https://github.com/luanguimaraesla/pandocker
     """)

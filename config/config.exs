@@ -45,7 +45,7 @@ config :pandocker, defaults: %{
 config :pandocker, tokens: %{
   command:        ~r/^\s*(?P<command>(compile|help|new))/,
   template:       ~r/(-t|--template)\s*(?<template>[-_\w\d\.]+)/,
-  config_yaml:    ~r/-f\s*(?P<config_yaml>\/?([-_\w\d\.]+\/?)*[-_\w\d\.]+\.(yaml|yml))/,
+  config_yaml:    ~r/(-f|--file)\s*(?P<config_yaml>\/?([-_\w\d\.]+\/?)*[-_\w\d\.]+\.(yaml|yml))/,
 }
 
 # It is also possible to import configuration files, relative to this
