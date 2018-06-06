@@ -25,7 +25,7 @@ sudo systemctl start docker
 
 ### Installing
 
-Now you can install pandocker like any other docker:
+Now you can install pandocker like any other docker.
 
 ```bash
 sudo systemctl start docker
@@ -42,18 +42,19 @@ Like many system tools built in Docker architecture, Pandocker must be executed 
 sudo docker run --rm -v $(pwd):/code luanguimaraesla/pandocker:0.3.1 help
 ```
 
-However, to ease the usage, you can alias this _f*ck$@!_ command just typing it in the terminal:
+However, to ease the usage, you can alias this _f*ck$@!_ command just typing it in the terminal.
 
 ```bash
 cat - << EOT >> ~/.bashrc
 function pandocker() {
   sudo docker run --rm -v $(pwd):/code luanguimaraesla/pandocker:0.3.1 $@
+  sudo chown -R $USER:$USER .
 }
 EOT
 source ~/.bashrc
 ```
 
-Then, you'll be able to use Pandocker like a pro:
+Then, you'll be able to use Pandocker like a pro.
 
 ```bash
 pandocker help
@@ -63,7 +64,7 @@ pandocker help
 
 ### Quick start
 
-Create an empty directory to your new Pandocker project and execute pandocker to setup the template structure. Then compile the source files:
+Create an empty directory to your new Pandocker project and execute pandocker to setup the template structure. Then compile the source files.
 
 ```bash
 mkdir myproject
@@ -72,7 +73,7 @@ pandocker new
 pandocker compile
 ```
 
-`WARNING`: because of docker architecture, to edit the files you'll need to run `chown` command inside your project directory:
+`WARNING`: if you're not using the ~/.bashrc function, because of docker architecture, to edit the files you'll need to run `chown` command inside your project directory.
 
 ```bash
 sudo chown -R $USER:$USER .
